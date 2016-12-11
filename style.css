@@ -1,0 +1,102 @@
+body {
+    text-align: center;
+    font-family: Roboto, arial, sans-serif;
+    width: 100vw;
+
+}
+
+
+#title {
+    height: 10vh;
+    font-size: 20px;
+    margin: 20px 0 0;
+    position: relative;
+}
+
+p {
+    position:relative;
+    top: -30px;
+}
+
+#gameBoard {
+    height: 60vh;
+}
+
+#p1, #p2 {
+    height: 450px;
+    width: 450px;
+    display: inline-block;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#p1 {
+    background-image: url(images/bloodseeker.png);
+    background-size: 80%;
+}
+
+#p2 {
+    background-image: url(images/axe.png);
+    background-size: 72%;
+}
+
+.attack, .specialAttack {
+    /* display: inline-block; */
+    position: relative;
+    top: 64%;
+    left: 12%;
+    transform: translateY(-50%);
+    width: 85px;
+    height: 34px;
+    line-height: 34px;
+    font-size: 20px;
+    color: #eeeeee;
+    margin: 4px 0px;
+    border-radius: 10px;
+}
+
+.attack {
+    background-color: #242324;
+}
+
+.specialAttack {
+    background-color: #3ea2b4;
+
+}
+
+#winner {
+    height: 18vh;
+    width: 100vw;
+    text-align: center;
+    font-size: 50px;
+    font-family: Roboto, Arial, sans-serif;
+    color: #2f2e2f;
+    position: relative;
+    top:0;
+    -webkit-animation: winName 3s infinite;
+}
+
+
+@-webkit-keyframes winName {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.10);
+    }
+    50% {
+        transform: scale(1);
+
+    }
+    75% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1);
+
+    }
+}
