@@ -2,10 +2,6 @@
  * Created by bill on 12/9/16.
  */
 $('document').ready(function(){
-    $('#p1Attack').click(p1Attack);
-    $('#p1SpecialAttack').click(p1SpecialAttack);
-    $('#p2Attack').click(p2Attack);
-    $('#p2SpecialAttack').click(p2SpecialAttack);
 
 });
 
@@ -43,21 +39,3 @@ function Fighter(name) {
 var p1 = new Fighter('BloodSeeker');
 var p2 = new Fighter('Axe');
 var p3 = new Fighter('Tidehunter');
-
-
-function p1Attack (){
-    p1.atk(p2);
-}
-
-function p2Attack (){
-    p2.atk(p1);
-}
-
-function p1SpecialAttack (){
-    p1.specialAtk(p2);
-}
-
-function p2SpecialAttack (){
-    p2.specialAtk(p1);
-
-}
