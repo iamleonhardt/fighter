@@ -17,15 +17,35 @@ body {
 }
 
 .fighterElement {
-    cursor: pointer;
-    font-size: 30px;
     height: 100px;
     width: 100px;
-    margin: 10px;
-    background-color: #f3f3f3;
+    border-radius: 50%;
+    background-color: #2de1ff;
+    text-align: center;
+    cursor: pointer;
     display: inline-block;
-    transition: background 2s, color 2s;
+    transition: background .5s, color .5s;
+    margin: 8px;
 }
+
+.fighterName {
+    height: 50px;
+    width: 100%;
+    font-size: 24px;
+    color: #ffffff;
+    position: relative;
+    top: 10px;
+}
+
+.fighterHP {
+    height: 50px;
+    width: 100%;
+    font-size: 46px;
+    position: relative;
+    bottom: 22px;
+}
+
+
 
 .fighterElement:hover {
     background-color: #2f2f2f;
