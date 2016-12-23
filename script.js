@@ -72,24 +72,21 @@ function Fighter(name) {
 }
 
 
-
-// List of Fighters
-var Bill = new Fighter('Bill');
-var Cung = new Fighter('Cung');
-var Mike = new Fighter('Mike');
-
-
 function gameController(gameAreaDomElem){
     var self = this;
     this.domElem = gameAreaDomElem;
 
-    this.numberOfFighters = 3;
-    this.fighterArr = [Bill, Cung, Mike];
+    this.numberOfFighters = 5;
+    this.fighterNames = ['Bill', 'Cung', 'Jason', 'Mike', 'Miles', 'Sean', 'Patrick'];
+    this.fighterList = {};
 
     this.createFighters = function(){
         for (var i = 0; i < this.numberOfFighters; i++) {
-            var thisFighter = this.fighterArr[i];
-            var thisDOMEle = thisFighter.createDOMElement();
+            this.fighterList[this.fighterNames[i]] = new Fighter(this.fighterNames[i]);
+
+
+            // var thisFighter = this.fighterArr[i];
+            var thisDOMEle = this.fighterList[this.fighterNames[i]].createDOMElement();
             $('#gameBoard').append(thisDOMEle);
         }
     }
