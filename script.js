@@ -10,6 +10,7 @@ function Fighter(name) {
 
     this.name = name;
     this.hitpoints = 100;
+    this.maxHitpoints = 100;
 
     this.top = 0;
     this.left = 0;
@@ -34,18 +35,29 @@ function Fighter(name) {
 
     this.specialAtk = function (opponent) {
         var ranDmg = this.getRanNum(50);
-        opponent.hitpoints -= ranDmg;
-        this.updateFighterDOM(opponent);
-
-        var flavor = [
-            ' winds up with all he has and smacks ',
-            ' uses all his rage and smashes ',
-            ' pulls out a secret weapon and hits '
-        ];
-        var ranFlavor = this.getRanNum(flavor.length -1);
-        $('#display').text(this.name + flavor[ranFlavor] + opponent.name + ' for ' + ranDmg + '.');
-        this.checkIfDead(opponent);
+        // opponent.hitpoints -= ranDmg;
+        // this.updateFighterDOM(opponent);
+        //
+        // var flavor = [
+        //     ' winds up with all he has and smacks ',
+        //     ' uses all his rage and smashes ',
+        //     ' pulls out a secret weapon and hits '
+        // ];
+        // var ranFlavor = this.getRanNum(flavor.length -1);
+        // $('#display').text(this.name + flavor[ranFlavor] + opponent.name + ' for ' + ranDmg + '.');
+        // this.checkIfDead(opponent);
     };
+
+    this.heal = function(){
+        var ranHeal = this.getRanNum(35);
+        self.hitpoints+=ranHeal;
+        if (self.hitpoints > 100){
+            self.hitpoints = 100;
+        }
+        this.updateFighterDOM(self);
+        console.log('self is : ', self);
+        console.log('healed ' + self.name + ' for ' + ranHeal);
+    }
 
     this.checkIfDead = function (opponent) {
         if (opponent.hitpoints <= 0) {
@@ -55,12 +67,18 @@ function Fighter(name) {
             //todo Remove object
         }
     };
+    this.healClickHandler = function(){
+        var currentPlayer = game.currentPlayer;
+        game.fighterList[currentPlayer].heal();
+        // game.nextPlayer();
+    };
 
-    this.clickHandler = function () {
+    this.atkClickHandler = function () {
         // self.specialAtk(game.fighterList[game.fighterNames[0]]);
         // self.atk(game.fighterList[game.fighterNames[0]]);
         var currentPlayer = game.currentPlayer;
-        game.fighterList[currentPlayer].specialAtk(game.fighterList[this.id]);
+        game.fighterList[currentPlayer].specialAtk(game.fighterList[this.parent]);
+        console.log('this is : ', this.parent);
         // game.fighterList[currentPlayer].atk(game.fighterList[this.id]);
         game.nextPlayer();
     };
@@ -79,8 +97,18 @@ function Fighter(name) {
             class: 'fighterHP',
             text: this.hitpoints
         });
-        this.domElement.append(nameDiv, hpDiv);
-        this.domElement.click(this.clickHandler);
+        var atkBtn = $('<div>', {
+            class: 'atkBtn',
+            text: 'Attack',
+            parent: this.domElement
+        })
+        var healBtn = $('<div>', {
+            class: 'healBtn',
+            text: 'Heal'
+        });
+        this.domElement.append(nameDiv, hpDiv, atkBtn, healBtn);
+        healBtn.click(this.healClickHandler);
+        atkBtn.click(this.atkClickHandler);
         return this.domElement;
     };
 
@@ -95,8 +123,10 @@ function gameController(gameAreaDomElem) {
     var self = this;
     this.domElem = gameAreaDomElem;
 
-    this.numberOfFighters = 8;
-    this.fighterNames = ['Dan', 'Bill', 'Cung', 'Jason', 'Mike', 'Miles', 'Sean', 'Patrick'];
+    this.numberOfFighters = 3;
+    // this.fighterNames = ['Dan', 'Bill', 'Cung', 'Jason', 'Mike', 'Miles', 'Sean', 'Patrick'];
+    this.fighterNames = ['Avery', 'Bill', 'Simon'];
+
     this.fighterList = {};
     this.playerPos = -1;
     this.currentPlayer = this.fighterNames[this.playerPos];
