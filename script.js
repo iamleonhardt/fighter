@@ -14,43 +14,62 @@ function Fighter(name) {
     this.top = 0;
     this.left = 0;
 
-    this.atkDmg = function (maxHit) {
-        return Math.floor(Math.random() * maxHit + 1);
+    this.getRanNum = function (maxNum) {
+        return Math.floor(Math.random() * maxNum + 1);
+    };
+
+    this.updateFighterDOM = function(opponent){
+        var opponentDiv = '#' + opponent.name;
+        $(opponentDiv + ' .fighterName').text(opponent.name);
+        $(opponentDiv + ' .fighterHP').text(opponent.hitpoints);
     }
+
     this.atk = function (opponent) {
-        var ranDmg = this.atkDmg(10);
+        var ranDmg = this.getRanNum(10);
         opponent.hitpoints -= ranDmg;
-        $('#'+opponent.name).text(opponent.name + ' ' + opponent.hitpoints);
-        console.log(this.name + ' hits ' + opponent.name + ' for ' + ranDmg + '.');
-        console.log(opponent.name + ' has ' + opponent.hitpoints + ' left.');
-        if (opponent.hitpoints <= 0) {
-            console.log(opponent.name + ' has been knocked out');
-            $('#winner').text(this.name + 'wins!');
-        }
-    }
+        this.updateFighterDOM(opponent);
+        $('#display').text(this.name + ' hits ' + opponent.name + ' for ' + ranDmg + '.');
+        this.checkIfDead(opponent);
+    };
+
     this.specialAtk = function (opponent) {
-        var ranDmg = this.atkDmg(50);
+        var ranDmg = this.getRanNum(50);
         opponent.hitpoints -= ranDmg;
-        var flavor = [' winds up with all he has and smacks ', ' uses all his rage and smashes ', ' pulls out a secret weapon and hits '];
-        var ranFlavor = Math.floor(Math.random() * flavor.length);
-        opponentDiv = '#'+opponent.name;
-        $('#Sean').text(opponent.name + ' ' + opponent.hitpoints);
-        console.log(this.name + flavor[ranFlavor] + opponent.name + ' for ' + ranDmg + '.');
-        console.log(opponent.name + ' has ' + opponent.hitpoints + ' left.');
+        this.updateFighterDOM(opponent);
+
+        var flavor = [
+            ' winds up with all he has and smacks ',
+            ' uses all his rage and smashes ',
+            ' pulls out a secret weapon and hits '
+        ];
+        var ranFlavor = this.getRanNum(flavor.length -1);
+        $('#display').text(this.name + flavor[ranFlavor] + opponent.name + ' for ' + ranDmg + '.');
+        this.checkIfDead(opponent);
+    };
+
+    this.checkIfDead = function (opponent) {
         if (opponent.hitpoints <= 0) {
-            console.log(opponent.name + ' has been knocked out');
-            $('#winner').text(this.name + 'wins!');
+            $('#display').text(opponent.name + ' has been knocked out');
+            $('#' + opponent.name).remove();
+            //todo Remove name from array that next player is checking
+            //todo Remove object
         }
-    }
+    };
 
-    this.clickHandler = function(){
-        self.atk(Sean);
-    }
+    this.clickHandler = function () {
+        // self.specialAtk(game.fighterList[game.fighterNames[0]]);
+        // self.atk(game.fighterList[game.fighterNames[0]]);
+        var currentPlayer = game.currentPlayer;
+        game.fighterList[currentPlayer].specialAtk(game.fighterList[this.id]);
+        // game.fighterList[currentPlayer].atk(game.fighterList[this.id]);
+        game.nextPlayer();
+    };
 
-    this.createDOMElement = function(){
-        this.domElement = $("<div>",{
+    this.createDOMElement = function (startingLeftPos) {
+        this.domElement = $("<div>", {
             class: 'fighterElement',
-            id: this.name
+            id: this.name,
+            css: {'left' : startingLeftPos +'px'}
         });
         var nameDiv = $('<div>', {
             class: 'fighterName',
@@ -63,40 +82,54 @@ function Fighter(name) {
         this.domElement.append(nameDiv, hpDiv);
         this.domElement.click(this.clickHandler);
         return this.domElement;
-    }
+    };
 
 
-    this.move = function(e){
+    this.move = function (e) {
         alert(e.keycode);
-    }
+    };
 }
 
 
-function gameController(gameAreaDomElem){
+function gameController(gameAreaDomElem) {
     var self = this;
     this.domElem = gameAreaDomElem;
 
-    this.numberOfFighters = 5;
-    this.fighterNames = ['Bill', 'Cung', 'Jason', 'Mike', 'Miles', 'Sean', 'Patrick'];
+    this.numberOfFighters = 8;
+    this.fighterNames = ['Dan', 'Bill', 'Cung', 'Jason', 'Mike', 'Miles', 'Sean', 'Patrick'];
     this.fighterList = {};
+    this.playerPos = -1;
+    this.currentPlayer = this.fighterNames[this.playerPos];
 
-    this.createFighters = function(){
+    this.nextPlayer = function () {
+        this.playerPos++;
+        if (this.playerPos > this.numberOfFighters - 1) {
+            this.playerPos = 0;
+        }
+        $('div #' + this.currentPlayer).removeClass('activeFighter');
+        this.currentPlayer = this.fighterNames[this.playerPos];
+        //focus the new current player
+        $('div #' + this.currentPlayer).addClass('activeFighter');
+        console.log('The new current player is : ', this.currentPlayer);
+    };
+
+    this.createFighters = function () {
+        var startingLeftPos = 0;
         for (var i = 0; i < this.numberOfFighters; i++) {
             this.fighterList[this.fighterNames[i]] = new Fighter(this.fighterNames[i]);
-
-
-            // var thisFighter = this.fighterArr[i];
-            var thisDOMEle = this.fighterList[this.fighterNames[i]].createDOMElement();
+            var thisDOMEle = this.fighterList[this.fighterNames[i]].createDOMElement(startingLeftPos);
             $('#gameBoard').append(thisDOMEle);
+            startingLeftPos += 120;
         }
-    }
+    };
 
-    this.initialize = function(){
+    this.initialize = function () {
         this.createFighters();
+        this.nextPlayer();
     }
 }
 
 $(document).ready(function () {
-    game = new gameController($('#gameBoard'))
+    game = new gameController($('#gameBoard'));
     game.initialize();
 });

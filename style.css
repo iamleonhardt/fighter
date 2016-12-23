@@ -23,8 +23,8 @@ p {
     background-color: #fafafa;
 }
 
-#winner {
-    height: 14vh;
+#display {
+    height: 4vh;
     width: 100vw;
 }
 
@@ -36,9 +36,8 @@ p {
     text-align: center;
     cursor: pointer;
     display: inline-block;
-    transition: background .5s, color .5s;
+    transition: background 1s, color 1s;
     position:absolute;
-    transform: translateX(-50%);
 }
 
 .fighterName {
@@ -60,7 +59,7 @@ p {
 
 
 
-.fighterElement:active {
+.activeFighter {
     background-color: #2f2f2f;
     color: #ffffff;
 }
