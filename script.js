@@ -1,13 +1,19 @@
 /**
  * Created by bill on 12/9/16.
  */
+var game = null;
 
 // Constructor for Fighters
 function Fighter(name) {
     var self = this;
-    this.name = name;
     this.div = '';
+
+    this.name = name;
     this.hitpoints = 100;
+
+    this.top = 0;
+    this.left = 0;
+
     this.atkDmg = function (maxHit) {
         return Math.floor(Math.random() * maxHit + 1);
     }
@@ -58,26 +64,39 @@ function Fighter(name) {
         this.domElement.click(this.clickHandler);
         return this.domElement;
     }
+
+
+    this.move = function(e){
+        alert(e.keycode);
+    }
 }
 
+
+
 // List of Fighters
-var Cung = new Fighter('Cung');
-var Jason = new Fighter('Jason');
-var Mike = new Fighter('Mike');
-var Miles = new Fighter('Miles');
-var Patrick = new Fighter('Patrick');
-var Sean = new Fighter('Sean');
+var Bill = new Fighter('Bill');
 
-var fighterArr = [Cung, Jason, Mike, Miles, Patrick, Sean];
+function gameController(gameAreaDomElem){
+    var self = this;
+    this.domElem = gameAreaDomElem;
 
-function createFighters() {
-    for (var i = 0; i < fighterArr.length; i++) {
-        var thisFighter = fighterArr[i];
-        var thisDOMEle = thisFighter.createDOMElement();
-        $('#gameBoard').append(thisDOMEle);
+    this.numberOfFighters = 1;
+    this.fighterArr = [Bill];
+
+    this.createFighters = function(){
+        for (var i = 0; i < this.numberOfFighters; i++) {
+            var thisFighter = this.fighterArr[i];
+            var thisDOMEle = thisFighter.createDOMElement();
+            $('#gameBoard').append(thisDOMEle);
+        }
+    }
+
+    this.initialize = function(){
+        this.createFighters();
     }
 }
 
 $(document).ready(function () {
-    createFighters();
+    game = new gameController($('#gameBoard'))
+    game.initialize();
 });

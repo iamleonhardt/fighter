@@ -2,18 +2,30 @@ body {
     text-align: center;
     font-family: Roboto, arial, sans-serif;
     width: 100vw;
+    margin: 0;
+    padding: 0;
 
 }
 
+p {
+    margin: 0;
+}
+
 #title {
-    height: 10vh;
-    font-size: 20px;
-    /*margin: 20px 0 0;*/
+    height: 6vh;
+    font-size: 30px;
     position: relative;
 }
 
 #gameBoard {
-    height: 60vh;
+    height: 80vh;
+    position: relative;
+    background-color: #fafafa;
+}
+
+#winner {
+    height: 14vh;
+    width: 100vw;
 }
 
 .fighterElement {
@@ -25,7 +37,8 @@ body {
     cursor: pointer;
     display: inline-block;
     transition: background .5s, color .5s;
-    margin: 8px;
+    position:absolute;
+    transform: translateX(-50%);
 }
 
 .fighterName {
@@ -47,7 +60,7 @@ body {
 
 
 
-.fighterElement:hover {
+.fighterElement:active {
     background-color: #2f2f2f;
     color: #ffffff;
 }
