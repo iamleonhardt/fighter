@@ -75,13 +75,16 @@ function Fighter(name) {
 
 // List of Fighters
 var Bill = new Fighter('Bill');
+var Cung = new Fighter('Cung');
+var Mike = new Fighter('Mike');
+
 
 function gameController(gameAreaDomElem){
     var self = this;
     this.domElem = gameAreaDomElem;
 
-    this.numberOfFighters = 1;
-    this.fighterArr = [Bill];
+    this.numberOfFighters = 3;
+    this.fighterArr = [Bill, Cung, Mike];
 
     this.createFighters = function(){
         for (var i = 0; i < this.numberOfFighters; i++) {
