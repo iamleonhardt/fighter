@@ -20,7 +20,7 @@ p {
 #gameBoard {
     height: 80vh;
     position: relative;
-    background-color: #f3f3f3;
+    background-color: #fafafa;
 }
 
 #winner {

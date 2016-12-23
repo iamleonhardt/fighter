@@ -72,18 +72,21 @@ function Fighter(name) {
 }
 
 
+
+// List of Fighters
+var Bill = new Fighter('Bill');
+
 function gameController(gameAreaDomElem){
     var self = this;
     this.domElem = gameAreaDomElem;
 
-    this.numberOfFighters = 2;
-    this.fighterNames = ['Bill', 'Cung', 'Jason', 'Mike', 'Miles', 'Sean', 'Patrick'];
+    this.numberOfFighters = 1;
+    this.fighterArr = [Bill];
 
     this.createFighters = function(){
         for (var i = 0; i < this.numberOfFighters; i++) {
-            var name = this.fighterNames[i];
-            name = new Fighter(this.fighterNames[i]);
-            var thisDOMEle = name.createDOMElement();
+            var thisFighter = this.fighterArr[i];
+            var thisDOMEle = thisFighter.createDOMElement();
             $('#gameBoard').append(thisDOMEle);
         }
     }
@@ -95,5 +98,5 @@ function gameController(gameAreaDomElem){
 
 $(document).ready(function () {
     game = new gameController($('#gameBoard'))
-    // game.initialize();
+    game.initialize();
 });
